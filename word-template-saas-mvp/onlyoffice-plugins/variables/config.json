@@ -1,0 +1,22 @@
+{
+  "name": "Variables (MVP)",
+  "guid": "asc.{E3B4E9A1-2A9D-4D38-9A9D-7E5A4B6E5F12}",
+  "variations": [
+    {
+      "description": "Insertar variables como content controls (tags)",
+      "url": "index.html",
+      "icons": [
+        "resources/light/icon.png",
+        "resources/dark/icon.png"
+      ],
+      "isViewer": false,
+      "EditorsSupport": [
+        "word"
+      ],
+      "isVisual": true,
+      "initDataType": "none",
+      "initData": "",
+      "buttons": []
+    }
+  ]
+}

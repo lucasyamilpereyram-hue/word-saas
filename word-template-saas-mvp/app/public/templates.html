@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plantillas</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Plantillas</h1>
+    <button id="btnNew" class="btn btn-primary btn-lg" title="Crear plantilla">+</button>
+  </header>
+
+  <main class="container">
+    <div id="empty" class="empty-state hidden">
+      <p>No tienes ninguna plantilla creada</p>
+    </div>
+
+    <div id="list" class="grid"></div>
+  </main>
+
+  <script type="module" src="/templates.js"></script>
+</body>
+</html>

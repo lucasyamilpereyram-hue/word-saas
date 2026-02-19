@@ -1,0 +1,56 @@
+\
+builder.SetTmpFolder("DocBuilderTemp");
+
+var templateUrl = Argument["templateUrl"];
+var outName = Argument["outName"] || ("generated-" + (new Date().getTime()) + ".docx");
+var vars = Argument["vars"] || {};
+
+builder.OpenFile(templateUrl, "");
+
+// Iterar content controls y reemplazar por tag (convención: prefijo tipo "txt:", "img:", etc)
+var doc = Api.GetDocument();
+var controls = doc.GetAllContentControls();
+
+for (var i = 0; i < controls.length; i++) {
+  var cc = controls[i];
+  if (!cc.GetTag) continue;
+  var tag = cc.GetTag();
+  if (!tag) continue;
+
+  var parts = tag.split(":");
+  var typePrefix = (parts.length > 1) ? parts[0] : "txt";
+  var varId = (parts.length > 1) ? parts.slice(1).join(":") : tag;
+
+  if (vars[varId] === undefined || vars[varId] === null) continue;
+
+  // Limpiar estilo "chip" (opcional)
+  if (cc.SetBackgroundColor) {
+    // blanco/auto (en algunos casos puedes usar 255,255,255 o color transparente)
+    cc.SetBackgroundColor(255,255,255);
+  }
+  if (cc.SetLock) {
+    // desbloquear (0) para dejar texto editable en Word final
+    cc.SetLock(0);
+  }
+
+  if (typePrefix === "img") {
+    // Para imágenes: se espera que la variable sea una URL accesible
+    if (cc.SetPicture) {
+      cc.SetPicture(vars[varId]);
+    } else {
+      // fallback: escribir URL como texto
+      var contentImg = cc.GetContent && cc.GetContent();
+      if (contentImg && contentImg.RemoveAllElements) contentImg.RemoveAllElements();
+      if (cc.AddText) cc.AddText(String(vars[varId]));
+    }
+    continue;
+  }
+
+  // Texto/numero/fecha/selección: reemplazar contenido
+  var content = cc.GetContent && cc.GetContent();
+  if (content && content.RemoveAllElements) content.RemoveAllElements();
+  if (cc.AddText) cc.AddText(String(vars[varId]));
+}
+
+builder.SaveFile("docx", outName);
+builder.CloseFile();

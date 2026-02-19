@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Variables</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h2>Variables</h2>
+
+    <div class="note">
+      Convención MVP: el <b>tag</b> se guarda como <code>tipo:nombre</code> (ej: <code>txt:Solicitante</code>, <code>img:Foto</code>).
+      Así la app puede detectar variables desde el DOCX sin metadatos extra.
+    </div>
+
+    <label>Nombre (único)</label>
+    <input id="name" placeholder="Solicitante" />
+
+    <label>Etiqueta (visible)</label>
+    <input id="label" placeholder="Nombre del solicitante" />
+
+    <label>Tipo</label>
+    <select id="type">
+      <option value="txt">Texto</option>
+      <option value="num">Número</option>
+      <option value="date">Fecha</option>
+      <option value="sel">Selección</option>
+      <option value="img">Imagen</option>
+    </select>
+
+    <div id="optionsWrap" class="hidden">
+      <label>Opciones (una por línea)</label>
+      <textarea id="options" rows="4" placeholder="Opción 1&#10;Opción 2"></textarea>
+    </div>
+
+    <button id="insert">Insertar variable</button>
+
+    <hr />
+
+    <button id="refresh" class="secondary">Listar variables en el documento</button>
+    <div id="list"></div>
+  </div>
+
+  <script src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
+  <script src="code.js"></script>
+</body>
+</html>

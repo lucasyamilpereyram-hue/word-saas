@@ -1,0 +1,27 @@
+services:
+  documentserver:
+    image: onlyoffice/documentserver:latest
+    environment:
+      - JWT_ENABLED=false
+    ports:
+      - "8080:80"
+    volumes:
+      # Montamos el plugin de Variables
+      - ./onlyoffice-plugins/variables:/var/www/onlyoffice/documentserver/sdkjs-plugins/variables
+  app:
+    image: node:20-alpine
+    working_dir: /usr/src/app
+    command: sh -c "npm install && node server.js"
+    environment:
+      - PORT=3000
+      # URL pública que usa el navegador
+      - PUBLIC_APP_URL=http://localhost:3000
+      - DOCSERVER_PUBLIC_URL=http://localhost:8080
+      # URL interna (desde documentserver -> app)
+      - INTERNAL_APP_URL=http://app:3000
+      # URL interna (desde app -> documentserver)
+      - DOCSERVER_INTERNAL_URL=http://documentserver
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/usr/src/app
